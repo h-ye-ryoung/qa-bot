@@ -1,20 +1,27 @@
 // scripts/ingest.ts
 // @ts-nocheck
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
+
 import fs from 'fs';
 import path from 'path';
 import XLSX from 'xlsx';
+import { getQdrantClient } from '../lib/qdrant.ts';
+import { embedOne } from '../lib/embeddings.ts';
 
-console.log('ingest.ts 실행 시작, cwd:', process.cwd());
 
-const filePath = path.resolve(process.cwd(), 'Q&A.xlsx');
 
-if (!fs.existsSync(filePath)) {
-  console.error('파일을 찾을 수 없습니다:', filePath);
-  process.exit(1);
-}
+async function main() {
+  console.log('ingest.ts 실행 시작, cwd:', process.cwd());
 
-try {
-  // buffer로 가져오기
+  const filePath = path.resolve(process.cwd(), 'Q&A.xlsx');
+
+  if (!fs.existsSync(filePath)) {
+    console.error('파일을 찾을 수 없습니다:', filePath);
+    process.exit(1);
+  }
+
+  // 1) 엑셀 읽기
   const buffer = fs.readFileSync(filePath);
   const workbook = XLSX.read(buffer, { type: 'buffer' });
 
@@ -30,6 +37,7 @@ try {
     process.exit(1);
   }
 
+  // 2) Q/A 파싱
   const range = XLSX.utils.decode_range(sheet['!ref']);
   const qRegex = /^Q\.\s*/i;
   const aRegex = /^A\.\s*/i;
@@ -57,7 +65,39 @@ try {
 
   console.log(JSON.stringify(results, null, 2));
   console.log(`총 ${results.length}개 Q/A 추출됨`);
-} catch (err) {
-  console.error('오류 발생:', err);
-  process.exit(1);
+
+  // 3) 임베딩 + Qdrant 업서트
+  const collection = process.env.QDRANT_COLLECTION!;
+  const points: any[] = [];
+
+  for (let i = 0; i < results.length; i++) {
+    const { q, a } = results[i];
+    console.log(`임베딩 중 (${i + 1}/${results.length}):`, q);
+    const vector = await embedOne(q); // 질문만 임베딩
+
+    points.push({
+      id: i + 1,
+      vector,
+      payload: {
+        question: q,
+        answer: a,
+        source: 'Q&A.xlsx',
+      },
+    });
+  }
+
+  console.log(`Qdrant upsert 준비 완료, 포인트 수: ${points.length}`);
+
+  const qdrant = getQdrantClient();
+  await qdrant.upsert(collection, {
+    wait: true,
+    points,
+  });
+
+  console.log(`Qdrant에 ${points.length}개 포인트 upsert 완료`);
 }
+
+main().catch((err) => {
+  console.error('ingest 실행 중 오류:', err);
+  process.exit(1);
+});

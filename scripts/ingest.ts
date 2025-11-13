@@ -9,8 +9,6 @@ import XLSX from 'xlsx';
 import { getQdrantClient } from '../lib/qdrant.ts';
 import { embedOne } from '../lib/embeddings.ts';
 
-
-
 async function main() {
   console.log('ingest.ts 실행 시작, cwd:', process.cwd());
 

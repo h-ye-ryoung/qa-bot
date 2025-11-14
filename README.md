@@ -14,17 +14,17 @@ https://qa-bot-rose.vercel.app/
 
 ## 📦 Stacks
 
-| 구분 | 기술 스택 |
-|------|-----------|
-| **Frontend** | Next.js (App Router) |
-| | React |
-| | TypeScript |
-| | Tailwind CSS |
-| **Backend** | Next.js (API Routes) |
-| | Node.js️
-| | Qdrant Cloud | 
-| | HuggingFace API (KoE5) |
-| **DevOps** | Vercel |
+| 구분 | 기술 스택 | 사용 이유 |
+|------|-----------| ------ |
+| **Frontend** | Next.js (App Router) | 풀스택 프레임워크 & Vercel과 호환성 높음 |
+| | React, TypeScript | 타입 안정성 |
+| | Tailwind CSS | Cursor와 호환성 높음 & 파일 분리 없이 CSS 구현 가능 |
+| **Backend** | Next.js (API Routes) | 별도 서버 없이 API 구성 가능 |
+| | Node.js️ | ingest 스크립트 실행, 환경변수 사용 등 서버 런타임 역할 |
+| | Qdrant Cloud | 오픈소스 기반 클라우드 & 무료 티어 보유 & TypsScript Client가 단순 & 운영 부담 적음 |
+| | HuggingFace API (KoE5) | 한국어 특화 임베딩 모델 & 무료 크레딧 보유 |
+| **DevOps** | Vercel | 깃허브와 연동되어 CI/CD 배포에 유용 |
+| **AI Tool** | Cursor | VSCode와 호환성 매우 높음 |
 
 <br>
 

@@ -1,3 +1,8 @@
+## 🔗 FAQ ChatBot Link
+https://qa-bot-rose.vercel.app/
+
+<br>
+
 ## 🤖 Perso FAQ Chatbot
 
 > Perso.ai / 이스트소프트 관련 FAQ를 답변하는 지식 기반 챗봇입니다. <br>

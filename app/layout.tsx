@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Perso FAQ Chatbot',
   description:
-    'Perso.ai / 이스트소프트 관련 Q&A만 답변하는 지식기반 챗봇입니다.',
+    'Perso.ai / 이스트소프트 관련 Q&A를 답변하는 지식기반 챗봇입니다.',
   openGraph: {
     title: 'Perso FAQ Chatbot',
     description:
-      'Perso.ai / 이스트소프트 관련 Q&A만 답변하는 지식기반 챗봇입니다.',
+      'Perso.ai / 이스트소프트 관련 Q&A를 답변하는 지식기반 챗봇입니다.',
     url: 'https://qa-bot-rose.vercel.app',
     siteName: 'Perso FAQ Chatbot',
     images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Perso FAQ Chatbot',
     description:
-      'Perso.ai / 이스트소프트 관련 Q&A만 답변하는 지식기반 챗봇입니다.',
+      'Perso.ai / 이스트소프트 관련 Q&A를 답변하는 지식기반 챗봇입니다.',
     images: ['/thumbnail.png'],
   },
 };

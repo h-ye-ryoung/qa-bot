@@ -43,6 +43,12 @@ export async function POST(req: NextRequest) {
     const top = results[0];
     const payload = top.payload as any;
 
+    //score 로그 (매치된 경우)
+    console.log('[ask] score', {
+        question,
+        score: top.score,
+    });
+
     return NextResponse.json({
       matched: true,
       answer: payload.answer,

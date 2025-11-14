@@ -140,15 +140,15 @@ export default function Home() {
   return (
   <main className="flex min-h-screen flex-col bg-slate-950 text-slate-50">
     {/* 상단 헤더 */}
-    <div className="w-full bg-slate-900/50 backdrop-blur-sm shadow-md border-b border-slate-700">
-      <div className="w-full px-4 sm:px-8 lg:px-10 py-4 flex justify-start">
+    <header className="w-full bg-slate-900/50 backdrop-blur-sm shadow-md border-b border-slate-700">
+      <div className="w-full px-4 sm:px-8 lg:px-10 py-4 flex justify-start items-center">
         <img
           src="/logo.png"
           alt="Perso.ai logo"
           className="h-8 sm:h-10 w-auto"
         />
       </div>
-    </div>
+    </header>
 
     {/* 본문 영역 */}
     <div className="flex-1 flex justify-center items-center">
@@ -158,13 +158,16 @@ export default function Home() {
             Perso FAQ Chatbot
           </h1>
           <p className="text-xs sm:text-sm text-slate-400">
-            Perso.ai / 이스트소프트 관련 Q&A만 답변하는 지식기반 챗봇입니다.
+            Perso.ai / 이스트소프트 관련 Q&A를 답변하는 지식기반 챗봇입니다.
           </p>
         </header>
 
+        {/* 채팅 영역 */}
         <section
           ref={containerRef}
-          className="h-[480px] sm:h-[480px] md:h-[480px] rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 flex flex-col gap-3 overflow-y-auto chat-scroll"
+          aria-live="polite"
+          role="log"
+          className="h-[50vh] sm:h-[50vh] md:h-[530px] rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 flex flex-col gap-3 overflow-y-auto chat-scroll"
         >
           {messages.length === 0 && (
             <div className="text-sm text-slate-400">
@@ -173,11 +176,11 @@ export default function Home() {
           )}
 
           {messages.map((m) => (
-            <div
+            <article
               key={m.id}
-              className={`flex ${
-                m.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
+              role="article"
+              aria-label={`${m.role} message`}
+              className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {m.role === 'bot' ? (
                 <div className="flex items-start gap-3">
@@ -200,7 +203,7 @@ export default function Home() {
                   <p className="whitespace-pre-wrap break-words">{m.text}</p>
                 </div>
               )}
-            </div>
+            </article>
           ))}
 
           {loading && (
@@ -210,7 +213,8 @@ export default function Home() {
           )}
         </section>
 
-        <div className="flex flex-wrap gap-2 text-[11px] sm:text-xs text-slate-300">
+        {/* 프리셋 질문 네비게이션 */}
+        <nav aria-label="preset-questions" className="flex flex-wrap gap-2 text-[11px] sm:text-xs text-slate-300">
           {presetQuestions.map((q) => (
             <button
               key={q.label}
@@ -225,27 +229,30 @@ export default function Home() {
               {q.label}
             </button>
           ))}
-        </div>
+        </nav>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-          <div className="flex gap-2">
-            <input
-              className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="질문을 입력하세요. (예: Perso.ai의 요금제는 어떻게 구성되어 있나요?)"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={loading}
-            />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? '전송 중...' : '전송'}
-            </button>
-          </div>
-          {error && <p className="text-xs text-red-400">{error}</p>}
-        </form>
+        {/* 입력 폼 */}
+        <footer>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <input
+                className="flex-1 rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="질문을 입력하세요. (예: Perso.ai의 요금제는 어떻게 구성되어 있나요?)"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={loading}
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? '전송 중...' : '전송'}
+              </button>
+            </div>
+            {error && <p className="text-xs text-red-400">{error}</p>}
+          </form>
+        </footer>
       </div>
     </div>
   </main>

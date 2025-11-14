@@ -61,7 +61,6 @@ export default function Home() {
     );
 
     return () => timers.forEach((t) => clearTimeout(t));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 메시지 변경 시 채팅 박스 맨 아래로 자동 스크롤
@@ -140,7 +139,7 @@ export default function Home() {
 
   return (
   <main className="flex min-h-screen flex-col bg-slate-950 text-slate-50">
-    {/* 상단 헤더 바 + 로고 */}
+    {/* 상단 헤더 */}
     <div className="w-full bg-slate-900/50 backdrop-blur-sm shadow-md border-b border-slate-700">
       <div className="w-full px-4 sm:px-8 lg:px-10 py-4 flex justify-start">
         <img
@@ -151,7 +150,7 @@ export default function Home() {
       </div>
     </div>
 
-    {/* 본문 영역: 모바일 / 데스크탑 모두 세로 중앙 정렬 */}
+    {/* 본문 영역 */}
     <div className="flex-1 flex justify-center items-center">
       <div className="w-full max-w-4xl flex flex-col gap-4 px-3 sm:px-5 md:px-6 py-6 sm:py-8 md:py-10">
         <header className="flex flex-col gap-1">
@@ -165,7 +164,7 @@ export default function Home() {
 
         <section
           ref={containerRef}
-          className="h-[480px] sm:h-[530px] md:h-[530px] rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 flex flex-col gap-3 overflow-y-auto chat-scroll"
+          className="h-[480px] sm:h-[480px] md:h-[480px] rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 flex flex-col gap-3 overflow-y-auto chat-scroll"
         >
           {messages.length === 0 && (
             <div className="text-sm text-slate-400">
@@ -251,6 +250,4 @@ export default function Home() {
     </div>
   </main>
   );
-
-
 }
